@@ -1,9 +1,15 @@
-#Codigo Python
+# Codigo Python Atualizado
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import yt_dlp
+import os
+import imageio_ffmpeg as ffmpeg
+
+# Configura o ffmpeg no PATH
+ffmpeg_path = ffmpeg.get_ffmpeg_exe()
+os.environ["PATH"] = os.path.dirname(ffmpeg_path) + os.pathsep + os.environ.get("PATH", "")
 
 app = FastAPI()
 
@@ -27,6 +33,11 @@ async def extrair_audio(data: LinkInput):
         'format': 'bestaudio/best',
         'quiet': True,
         'skip_download': True,
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
     }
 
     try:
