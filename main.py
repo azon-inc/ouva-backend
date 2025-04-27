@@ -1,9 +1,12 @@
 #Codigo Python
 
-from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-import yt_dlp
+from fastapi import FastAPI
+import os
+import imageio_ffmpeg as ffmpeg
+
+# Configura o PATH para incluir o ffmpeg baixado
+ffmpeg_path = ffmpeg.get_ffmpeg_exe()
+os.environ["PATH"] = os.path.dirname(ffmpeg_path) + os.pathsep + os.environ.get("PATH", "")
 
 app = FastAPI()
 
